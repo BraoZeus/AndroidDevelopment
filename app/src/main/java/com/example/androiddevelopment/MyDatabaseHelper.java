@@ -69,7 +69,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         insertSampleJobs(db);
     }
 
-    @Override
+    @Override //Drops all tables if they exist and then recreate them. Typically called when the database version changes.
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_JOB_REGISTRATIONS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_JOBS);
@@ -151,7 +151,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     // Method to insert a job into the database
     public boolean insertJob(String title, String description) {
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getWritableDatabase(); // Get a writable database
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_TITLE, title);
         contentValues.put(COLUMN_DESCRIPTION, description);

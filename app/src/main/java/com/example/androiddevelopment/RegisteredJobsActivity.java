@@ -23,7 +23,7 @@ public class RegisteredJobsActivity extends AppCompatActivity {
 
         registeredJobsListView = findViewById(R.id.registeredJobsListView);
 
-        // Display registered jobs
+        // Fetch and Display registered job from SharedPreferences
         displayRegisteredJobs();
 
         registeredJobsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -38,13 +38,13 @@ public class RegisteredJobsActivity extends AppCompatActivity {
     }
 
     private void displayRegisteredJobs() {
-        SharedPreferences preferences = getSharedPreferences("RegisteredJobs", MODE_PRIVATE);
-        Map<String, ?> allEntries = preferences.getAll();
+        SharedPreferences preferences = getSharedPreferences("RegisteredJobs", MODE_PRIVATE);//retrieves or creates the SharedPreferences object named "RegisteredJobs"
+        Map<String, ?> allEntries = preferences.getAll();//retrieves all entries from the SharedPreferences
 
         // Create a list of job titles
-        String[] jobTitles = new String[allEntries.size()];
+        String[] jobTitles = new String[allEntries.size()];//create an array to store the job titles
         int index = 0;
-        for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
+        for (Map.Entry<String, ?> entry : allEntries.entrySet()) {//iterate through the entries in the SharedPreferences
             jobTitles[index++] = entry.getKey();
         }
 

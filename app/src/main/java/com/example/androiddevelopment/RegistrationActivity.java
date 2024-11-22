@@ -13,23 +13,23 @@ public class RegistrationActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registration); // Ensure this matches your XML layout
+        super.onCreate(savedInstanceState);//call the superclass constructor
+        setContentView(R.layout.activity_registration);//set the layout for the activity
 
-        jobTitleTextView = findViewById(R.id.jobTitle);
-        jobDescriptionTextView = findViewById(R.id.jobDescription);
-        Button registerButton = findViewById(R.id.registerButton);
+        jobTitleTextView = findViewById(R.id.jobTitle);//find the TextViews in the layout
+        jobDescriptionTextView = findViewById(R.id.jobDescription);//find the TextViews in the layout
+        Button registerButton = findViewById(R.id.registerButton);//find the Button in the layout
 
-        String jobTitle = getIntent().getStringExtra("jobTitle");
-        String jobDescription = getIntent().getStringExtra("jobDescription");
+        String jobTitle = getIntent().getStringExtra("jobTitle");//retrieve the intent which started the activity
+        String jobDescription = getIntent().getStringExtra("jobDescription");//retrieve the intent which started the activity
 
-        jobTitleTextView.setText(jobTitle);
-        jobDescriptionTextView.setText(jobDescription);
+        jobTitleTextView.setText(jobTitle);//set the text of the TextViews
+        jobDescriptionTextView.setText(jobDescription);//set the text of the TextViews
 
         // Save the job to SharedPreferences when the button is clicked
         registerButton.setOnClickListener(view -> {
-            SharedPreferences preferences = getSharedPreferences("RegisteredJobs", MODE_PRIVATE);
-            SharedPreferences.Editor editor = preferences.edit();
+            SharedPreferences preferences = getSharedPreferences("RegisteredJobs", MODE_PRIVATE);//retrieves or creates the SharedPreferences object named "RegisteredJobs"
+            SharedPreferences.Editor editor = preferences.edit();//creates an editor object to modify the SharedPreferences
             editor.putString(jobTitle, jobDescription);
             editor.apply();
             finish(); // Close this activity after registering
