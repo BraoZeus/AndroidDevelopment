@@ -23,4 +23,15 @@
     <string name="signup1">Signup</string>
     <string name="click_here_to_login">Click here to login</string>
     <string name="sign_up">SIGN UP</string>
+        <!-- Registered Jobs title -->
+    <string name="registered_jobs_title">Registered Jobs</string>
+
+        <!-- Option for delete registration -->
+    <string name="delete_registration_button">Delete Registration</string>
+
+        <!-- Confirmation Dialog Strings -->
+    <string name="confirmation_dialog_title">Are you sure?</string>
+    <string name="confirmation_dialog_message">Do you want to delete this registration?</string>
+    <string name="yes_button">Yes</string>
+    <string name="no_button">No</string>
 </resources>

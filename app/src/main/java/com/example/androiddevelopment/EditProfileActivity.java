@@ -1,18 +1,17 @@
 package com.example.androiddevelopment;
 
-import android.content.Intent;
-import android.database.Cursor; // Import Cursor
+import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log; // Import Log
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 public class EditProfileActivity extends AppCompatActivity {
 
-    private EditText editTextName, editTextEmail;
+    private EditText editTextUsername, editTextEmail;
     private Button buttonSave;
     private MyDatabaseHelper databaseHelper;
     private int userId;
@@ -20,57 +19,50 @@ public class EditProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_profile); // layout file
+        setContentView(R.layout.activity_edit_profile);
+
+        // Get user ID from intent
+        userId = getIntent().getIntExtra("userId", -1);
 
         // Initialize views
-        editTextName = findViewById(R.id.editTextName);
+        editTextUsername = findViewById(R.id.editTextUsername);
         editTextEmail = findViewById(R.id.editTextEmail);
         buttonSave = findViewById(R.id.buttonSave);
-
         databaseHelper = new MyDatabaseHelper(this);
-        userId = getIntent().getIntExtra("userId", -1); // Get userId from intent
 
-        loadUserProfile();
+        // Load the user details into the EditText fields
+        loadUserDetails(userId);
 
+        // Save button onClick
         buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveUserProfile();
+                String username = editTextUsername.getText().toString();
+                String email = editTextEmail.getText().toString();
+
+                // Update the user profile in the database
+                boolean isUpdated = databaseHelper.updateUserProfile(userId, username, email);
+                if (isUpdated) {
+                    Toast.makeText(EditProfileActivity.this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
+                    finish(); // Close the activity
+                } else {
+                    Toast.makeText(EditProfileActivity.this, "Failed to update profile", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
 
-    private void loadUserProfile() {
+    // Method to load user details into EditText fields
+    private void loadUserDetails(int userId) {
         Cursor cursor = databaseHelper.getUserDetails(userId);
-        if (cursor != null) {
-            int usernameIndex = cursor.getColumnIndex(MyDatabaseHelper.COLUMN_USERNAME);
-            int emailIndex = cursor.getColumnIndex(MyDatabaseHelper.COLUMN_EMAIL);
-
-            if (usernameIndex == -1 || emailIndex == -1) {
-                Log.e("EditProfileActivity", "Column not found");
-                Toast.makeText(this, "Error retrieving user details", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            if (cursor.moveToFirst()) {
-                String username = cursor.getString(usernameIndex);
-                String email = cursor.getString(emailIndex);
-                editTextName.setText(username);
-                editTextEmail.setText(email);
-            }
-            cursor.close();
-        }
-    }
-
-    private void saveUserProfile() {
-        String name = editTextName.getText().toString();
-        String email = editTextEmail.getText().toString();
-
-        if (databaseHelper.updateUserProfile(userId, name, email)) {
-            Toast.makeText(this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
-            finish(); // Close this activity and return to ProfileActivity
+        if (cursor != null && cursor.moveToFirst()) {
+            String username = cursor.getString(cursor.getColumnIndex("username"));
+            String email = cursor.getString(cursor.getColumnIndex("email"));
+            editTextUsername.setText(username);
+            editTextEmail.setText(email);
+            cursor.close();  // Don't forget to close the cursor!
         } else {
-            Toast.makeText(this, "Failed to update profile", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "User not found", Toast.LENGTH_SHORT).show();
         }
     }
 }

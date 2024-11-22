@@ -1,13 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp">
 
+    <!-- Registered Jobs Title -->
     <TextView
-        android:id="@+id/registeredJobsTextView"
+        android:id="@+id/registeredJobsTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Registered Jobs"
-        android:textSize="18sp" />
+        android:text="@string/registered_jobs_title"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:paddingBottom="16dp" />
+
+    <!-- List of Registered Jobs -->
+    <ListView
+        android:id="@+id/registeredJobsListView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:divider="@android:color/darker_gray"
+        android:dividerHeight="0.5dp"
+        android:paddingBottom="16dp"/>
+
 </LinearLayout>
